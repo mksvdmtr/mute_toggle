@@ -1,4 +1,10 @@
 #!/bin/bash 
 autoMuteStatus=$(/usr/bin/amixer sget --card 1 "Auto-Mute Mode" Disabled | grep Item0 | cut -d ":" -f 2 | tr -d "'" | tr -d " ")
 
-[ $autoMuteStatus == "Disabled" ] && /usr/bin/amixer sset --card 1 "Auto-Mute Mode" Enabled || /usr/bin/amixer sset --card 1 "Auto-Mute Mode" Disabled
+if [ $autoMuteStatus == "Disabled" ]; then 
+	/usr/bin/amixer sset --card 1 "Auto-Mute Mode" Enabled
+	notify-send -i /usr/share/icons/Mint-Y/devices/64/audio-speakers.png "Speakers" "OFF"
+else
+       	/usr/bin/amixer sset --card 1 "Auto-Mute Mode" Disabled
+	notify-send -i /usr/share/icons/Mint-Y/devices/64/audio-speakers.png "Speakers" "ON"
+fi
